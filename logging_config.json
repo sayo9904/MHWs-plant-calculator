@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "common": {
+      "level": "DEBUG",
+      "format": "[%(asctime)s] %(levelname)s %(name)s %(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
+    }
+  },
+  "handlers": {
+    "consoleHandler": {
+      "class": "logging.StreamHandler",
+      "level": "WARNING",
+      "formatter": "common",
+      "stream": "ext://sys.stdout"
+    },
+    "fileHandler": {
+      "class": "logging.FileHandler",
+      "level": "DEBUG",
+      "formatter": "common",
+      "filename": "log/app.log"
+    }
+  },
+  "loggers": {
+    "__main__": {
+      "level": "DEBUG",
+      "handlers": [
+        "consoleHandler",
+        "fileHandler"
+      ],
+      "propagate": false
+    }
+  },
+  "root": {
+    "level": "INFO"
+  }
+}
