@@ -17,4 +17,4 @@ ENV TZ=Asia/Tokyo
 RUN useradd -m python && usermod -aG sudo python
 USER python
 
-ENV PYTHONPATH=/workspaces/MHWs-plant-calclator
+ENV PYTHONPATH=/workspaces/MHWs-plant-calclator/src
