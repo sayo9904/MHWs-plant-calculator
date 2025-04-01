@@ -1,27 +1,28 @@
 import os
 import unittest
+from pathlib import Path
 
 from get_item_evaluation import get_item_evaluation
 
 
 class TestGetItemValueWithCSV(unittest.TestCase):
-    TEST_CSV_PATH = "plants/テストの台地.csv"
-
+    DATA_DIR = Path(os.environ.get("DATADIR"))
+    TEST_CSV_PATH = DATA_DIR.joinpath("plants/テストの台地.csv")
+    TEST_DATA = [
+        ["アイテム名", "豊穣期", "荒廃期", "異常気象"],
+        ["ドス怪力の種", "3", "2", "1"],
+        ["忍耐の種亜種", "0", "0.5", "3"],
+    ]
+    
     def setUp(self):
         """前処理: テスト用のCSVファイルを作成"""
-        test_data = [
-            ["アイテム名", "豊穣期", "荒廃期", "異常気象"],
-            ["ドス怪力の種", "3", "2", "1"],
-            ["忍耐の種亜種", "0", "0.5", "3"],
-        ]
-        os.makedirs("./test_data", exist_ok=True)
-        with open(self.TEST_CSV_PATH, mode="w", encoding="utf-8") as f:
-            f.writelines(",".join(row) for row in test_data)
+        with self.TEST_CSV_PATH.open(mode="w", encoding="utf-8") as f:
+            f.writelines(",".join(row) + "\n" for row in self.TEST_DATA)
 
     def tearDown(self):
         """後処理: テスト用のCSVファイルを削除"""
-        if os.path.exists(self.TEST_CSV_PATH):
-            os.remove(self.TEST_CSV_PATH)
+        if self.TEST_CSV_PATH.exists():
+            self.TEST_CSV_PATH.unlink()
 
     def test_get_item_evaluation_from_csv(self):
         """CSVファイルから正しく値を取得できることを確認"""
