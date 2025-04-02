@@ -9,4 +9,7 @@
         "119"
     ],
     "autoDocstring.customTemplatePath": ".vscode/docstring.mustache",
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 }
