@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from infrastructure import load_csv
+
 with open("logging_config.json", "r") as f:
     log_conf = json.load(f)
 config.dictConfig(log_conf)
@@ -24,9 +26,6 @@ def get_item_evaluation(map_name: str, season_name: str, item_name: str) -> str:
     ### Returns:
         float: 評価値を返します。対応するレコードがデータベースにない場合、0を返します。
 
-    ### Exceptions
-        FileNotFoundError: ファイルのオープンに失敗した場合
-
     ### Usage:
         evaluated_value = get_item_value("隔ての砂原", "豊穣期", "ハチミツ") # to be 3
     """
@@ -39,15 +38,7 @@ def get_item_evaluation(map_name: str, season_name: str, item_name: str) -> str:
     data_dir = Path(os.environ.get("DATADIR") or "")
     plant_csv_path = data_dir.joinpath(f"plants/{map_name}.csv")
 
-    try:
-        # plantsディレクトリ内のCSVファイルを検索
-        df = pd.read_csv(plant_csv_path, index_col=0, encoding="utf-8", dtype=str)
-    except FileNotFoundError:
-        logger.error(f"'{plant_csv_path}' not found.")
-        raise FileNotFoundError
-
-    logger.debug(f"Opened file '{plant_csv_path}'")
-    logger.debug(f"DataFrame: \n{df}")
+    df = load_csv(plant_csv_path)
 
     try:
         taeget_value = df.at[item_name, season_name]
