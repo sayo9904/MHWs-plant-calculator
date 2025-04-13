@@ -11,7 +11,7 @@ config.dictConfig(log_conf)
 logger = getLogger(__name__)
 
 
-def load_csv(file_name: str) -> pd.DataFrame:
+def load_csv(file_name: Path) -> pd.DataFrame:
     """
     ### What is this?:
         Dataディレクトリ以下に配置されたcsvを読み込む関数
