@@ -47,27 +47,3 @@ def get_item_evaluation(map_name: str, season_name: str, item_name: str) -> str:
         return "0"
 
     return taeget_value
-
-
-def get_map_seasons(rest_map_name: str, rest_season_name: str, target_map_name) -> str:
-    """
-    ### What is this?:
-        マップ、季節を指定して休憩したとき、特定のマップがどの季節になるかを返します
-
-    ### Args:
-        rest_map_name (str): 休憩を行うマップ名
-        rest_season_name (str): 休憩で指定する季節
-        target_map_name (_type_): 調べたいマップ名
-
-    ### Returns:
-        str: 調べたいマップの季節
-
-    ### Usage:
-        my_get_map_seasons = get_map_seasons("隔ての砂原", "豊穣期, "緋の森") # to be "荒廃期"
-    """
-    if rest_map_name == "竜都の跡形":
-        logger.error(f"map name: '{rest_map_name}' is invalid.")
-        raise ValueError(f"'{rest_map_name}' is invalid.")
-
-    season = ""
-    return season
