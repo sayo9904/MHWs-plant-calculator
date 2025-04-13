@@ -53,6 +53,7 @@ def get_map_seasons(rest_map_name: str, rest_season_name: str, target_map_name) 
     """
     ### What is this?:
         マップ、季節を指定して休憩したとき、特定のマップがどの季節になるかを返します
+        竜都の跡形での休憩は、他マップの季節の決定がランダムなので無効としています。
 
     ### Args:
         rest_map_name (str): 休憩を行うマップ名
@@ -62,12 +63,26 @@ def get_map_seasons(rest_map_name: str, rest_season_name: str, target_map_name) 
     ### Returns:
         str: 調べたいマップの季節
 
+    ### Exceptions
+        ValueError: rest_map_nameが、"竜都の跡形"など禁止されている入力の場合
+
     ### Usage:
         my_get_map_seasons = get_map_seasons("隔ての砂原", "豊穣期, "緋の森") # to be "荒廃期"
     """
+
+    logger.debug(
+        "Searching for evaluation value."
+        f"map='{rest_map_name}', season='{rest_season_name}', target='{target_map_name}'"
+    )
+
     if rest_map_name == "竜都の跡形":
         logger.error(f"map name: '{rest_map_name}' is invalid.")
         raise ValueError(f"'{rest_map_name}' is invalid.")
 
-    season = ""
+    data_dir = Path(os.environ.get("DATADIR") or "")
+    seasons_csv_path = data_dir.joinpath(f"seasons/{rest_map_name}.csv")
+
+    df = load_csv(seasons_csv_path)
+
+    season = df.at[rest_season_name, target_map_name]
     return season
