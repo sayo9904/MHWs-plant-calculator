@@ -3,7 +3,7 @@
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
-	"postStartCommand": "pip install --upgrade pip && pip install -r requirements.txt",
+	"postCreateCommand": "bash ./entrypoint.sh",
 	"customizations": {
 		"vscode": {
 			"extensions": [
