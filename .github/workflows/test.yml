@@ -16,10 +16,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: lowercase github.repository
+        run: |
+          echo "REPO_LC=${GITHUB_REPOSITORY@L}" >> ${GITHUB_ENV}
+
       - name: Build and run test in dev container
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/${{ github.repository }}
-          cacheFrom: ghcr.io/${{ github.repository }}
+          imageName: ghcr.io/${{ env.REPO_LC }}
+          cacheFrom: ghcr.io/${{ env.REPO_LC }}
           push: always
           runCmd: python -m pytest
