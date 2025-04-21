@@ -21,3 +21,5 @@ ENV WORKDIR=/workspaces/MHWs-plant-calculator
 
 ENV PYTHONPATH=$WORKDIR/src
 ENV DATADIR=$WORKDIR/data
+
+ENTRYPOINT [ "./entrypoint.sh" ]

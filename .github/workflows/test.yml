@@ -1,0 +1,31 @@
+name: test
+
+on: [push]
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to ghcr
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: lowercase github.repository
+        run: |
+          echo "REPO_LC=${GITHUB_REPOSITORY@L}" >> ${GITHUB_ENV}
+
+      - name: Build and run test in dev container
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/${{ env.REPO_LC }}
+          cacheFrom: ghcr.io/${{ env.REPO_LC }}
+          push: always
+          runCmd: python -m pytest
